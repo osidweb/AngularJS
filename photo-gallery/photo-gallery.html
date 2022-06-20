@@ -1,0 +1,79 @@
+<!-- ФОТО-ГАЛЕРЕЯ -->
+<div
+  class="sidebar-block photo-gallery"
+  ng-class="{'empty-album' : (albums.length === 0 && !loading) }"
+>
+
+  <!-- заголовок -->
+  <div class="photo-gallery-header">
+    <div class="photo-gallery-header_title">
+      <!-- название -->
+      <div>{{'photoGallery.main_header' | translate}}</div>
+
+      <!-- создать альбом -->
+      <div
+        class="create-album-button"
+        ng-click="ctrl.showCreateAlbumPanel($event)"
+        log-click="Фотоальбомы::Кнопка <Создать> альбом на Главной"
+        title="{{ 'photogallery.panelTitle.create' | translate }}"
+      >
+        <i class="material-icons">add_circle_outline</i>
+        <div class="create-album-button_prompt">
+          {{'photoGallery.panelTitle.firstCreate' | translate}}
+        </div>
+      </div>
+    </div>
+
+    <!-- стрелки карусели альбомов: переключение между альбомами -->
+    <div
+      class="photo-gallery_albums-carousel-arrows"
+      ng-class="{'inactive' : loading}"
+      ng-if="albums.length > 0"
+    >
+      <div
+        class="arrow arrow-prev"
+        ng-click="ctrl.prevAlbum()"
+        log-click="Фотоальбомы::Кнопка <Предыдущий> альбом на Главной"
+      >
+        <i class="material-icons">keyboard_arrow_left</i>
+      </div>
+
+      <div class="arrows-text">
+        {{ 'photoGallery.main_header.arrows' | translate : {f:(activeAlbumNumber + 1), s:albums.length} }}
+      </div>
+
+      <div
+        class="arrow arrow-next"
+        ng-click="ctrl.nextAlbum()"
+        log-click="Фотоальбомы::Кнопка <Следующий> альбом на Главной"
+      >
+        <i class="material-icons">keyboard_arrow_right</i>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- содержимое -->
+  <div class="sidebar-block-body photo-gallery-content">
+
+    <!-- есть альбомы -->
+    <div
+      ng-if="albums.length > 0 && !loading"
+      ng-include="'/bundles/tretoportal/partials/index/common/photo-gallery/photo-gallery-content.html'"
+    ></div>
+
+    <!-- нет альбомов -->
+    <div
+      ng-if="albums.length === 0 && !loading"
+      ng-include="'/bundles/tretoportal/partials/index/common/photo-gallery/photo-gallery-content_empty.html'"
+    ></div>
+
+    <!-- progress -->
+    <div
+      class="photo-gallery-content_loading"
+      ng-if="loading"
+    >
+      <md-progress-circular md-mode="indeterminate" md-diameter="30"></md-progress-circular>
+    </div>
+  </div>
+</div>

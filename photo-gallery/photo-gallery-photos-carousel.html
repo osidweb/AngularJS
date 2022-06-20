@@ -1,0 +1,34 @@
+<!-- карусель фотографий -->
+<div class="photo-gallery_photos-carousel">
+  <a
+    class="photo-gallery_photos-carousel-link"
+    ng-href="{{album.linkOnDocument}}"
+    target="_blank"
+    log-click="Фотоальбомы::Ссылка на альбом из галлереи"
+  >
+    <div class="photo-gallery_photos-carousel-stage-outer">
+      <div class="photo-gallery_photos-carousel-stage">
+        <div
+          class="photo-gallery_photos-carousel-item"
+          ng-repeat="photo in album.attachments track by $index"
+        >
+          <div class="photo-gallery_photos-carousel-item_image-wrapper">
+
+            <!-- фотография -->
+            <img
+              class="photo-gallery_photos-carousel-item_image"
+              ng-src="{{(photo[0].link) | trusted}}"
+              img-load="imageOnLoad({imageIndex: $index})"
+              ng-show="!imageLoading[$index]"
+            >
+
+            <!-- progress -->
+            <div class="photo-gallery_photos-carousel_loading" ng-if="imageLoading[$index]">
+              <md-progress-circular md-mode="indeterminate" md-diameter="30"></md-progress-circular>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

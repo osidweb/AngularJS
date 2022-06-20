@@ -1,0 +1,100 @@
+<!-- панель Создать альбом -->
+<form
+  class="create-album-panel-content"
+  name="createAlbumCtrl.panelForm"
+  novalidate
+  ng-submit="createAlbumCtrl.save()"
+>
+  
+  <!-- заголовок -->
+  <div class="create-album-panel-header">
+    {{::createAlbumCtrl.panelTitle}}
+  </div>
+
+
+  <!-- основное содержимое -->
+  <div class="create-album-panel-main">
+
+    <!-- название альбома -->
+    <div class="create-album-panel-main_form-item">
+      <md-input-container>
+        <input
+          type="text"
+          name="albumTitle"
+          ng-model="createAlbumCtrl.album.subject"
+          placeholder="{{'createAlbumCtrl.album.subject' | translate}}"
+          required
+          md-no-asterisk
+        >
+      </md-input-container>
+    </div>
+
+    <!-- ссылка на тему -->
+    <div class="create-album-panel-main_form-item">
+      <md-input-container>
+        <input
+          type="text"
+          name="linkToDiscussion"
+          ng-pattern="/^.{1,}\..{2,}$/"
+          ng-model="createAlbumCtrl.album.linkOnDocument"
+          placeholder="{{'createAlbumCtrl.album.linkOnDocument' | translate}}"
+        >
+        <div ng-messages="createAlbumCtrl.panelForm.linkToDiscussion.$error" ng-show="createAlbumCtrl.panelForm.linkToDiscussion.$dirty">
+          <div ng-message="pattern">{{'createAlbumPanel.linkToDiscussion.incorrectLink' | translate}}</div>
+        </div>
+      </md-input-container>
+    </div>
+
+    <!-- вложения -->
+    <div
+      class="create-album-panel-main_form-item-attachments"
+      ng-if="createAlbumCtrl.album.attachments.length > 0 || $root.uploader.isUploading"
+    >
+      <!-- прогресс-бар загрузки аттачей -->
+      <div class="progress-container-wrapper">
+        <div ng-show="$root.uploader.isUploading" class="progress-container">
+          <div class="bar" ng-style="{ 'width': $root.uploader.progress + '%' }"></div>
+        </div>
+      </div>
+
+      <upload-list
+        model="createAlbumCtrl.album.attachments"
+        template-url="listing"
+        list-doc="createAlbumCtrl.album"
+      ></upload-list>
+    </div>
+  </div>
+
+
+  <!-- кнопки -->
+  <div class="create-album-panel-actions">
+    <div>
+      <md-button
+        class="btn btn-blue"
+        type="submit"
+        ng-disabled="createAlbumCtrl.panelForm.$invalid"
+        log-click="Фотоальбомы::Панель Создать альбом Кнопка <Сохранить> альбом на Главной"
+      >
+        {{'Popup.btn.save' | translate}}
+      </md-button>
+      
+      <md-button
+        class="btn btn-gray"
+        ng-click="createAlbumCtrl.cancel()"
+        log-click="Фотоальбомы::Панель Создать альбом Кнопка <Отмена>"
+      >
+        {{'Popup.btn_cancel' | translate}}
+      </md-button>
+    </div>
+
+    <!-- добавить файл -->
+    <upload-box
+      class="create-album-panel-actions_upload-button"
+      upload-options="{ collection: 'PhotoAlbum', unid: createAlbumCtrl.album.unid }"
+      auto="true"
+      multiple="true"
+      model="createAlbumCtrl.album.attachments"
+      templ="photo-gallery-uploader.html"
+    ></upload-box>
+  </div>
+</form>

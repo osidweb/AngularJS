@@ -1,0 +1,84 @@
+<!-- Содержмое галереи альбомов -->
+<div class="photo-gallery-content_album">
+
+  <!-- меню "еще" -->
+  <div
+    class="photo-gallery-content_album-more-menu"
+    ng-if="$root.role('PM') || $root.user.username === albums[activeAlbumNumber].authorLogin"
+  >
+    <md-menu>
+      <div
+        class="photo-gallery-content_album-more-menu_button"
+        ng-click="$mdMenu.open($event)"
+      >
+        <i class="material-icons">more_vert</i>
+      </div>
+    
+      <md-menu-content
+        class="sidebar-block-header-buttons-menu-content photo-gallery-content_album-more-menu_content"
+        width="4"
+      >
+    
+        <!-- редактировать -->
+        <md-menu-item>
+          <md-button
+            ng-click="ctrl.showEditAlbumPanel()"
+            log-click="Фотоальбомы::Кнопка <Редактировать> альбом на главной"
+          >
+            {{'photoGallery.showEditAlbumPanel.btn' | translate}}
+          </md-button>
+        </md-menu-item>
+    
+        <!-- удалить -->
+        <md-menu-item>
+          <md-button
+            ng-click="ctrl.removePhotoAlbum()"
+            log-click="Фотоальбомы::Кнопка <Удалить> альбом на главной"
+          >
+            {{'photoGallery.removePhotoAlbum.btn' | translate}}
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </div>
+
+  
+  <!-- карусель альбомов -->
+  <div class="photo-gallery_albums-carousel" photo-gallery-albums-carousel>
+    <div class="photo-gallery_albums-carousel-stage-outer">
+      <div class="photo-gallery_albums-carousel-stage">
+          
+        <!-- альбом -->
+        <div
+          class="photo-gallery_albums-carousel-item"
+          ng-repeat="album in albums track by $index"
+        >
+          <!-- карусель фотографий -->
+          <photo-gallery-photos-carousel
+            album="album"
+            active-album-number="{{activeAlbumNumber}}"
+            album-index="$index"
+          ></photo-gallery-photos-carousel>
+
+          <!-- название альбома и аватар автора -->
+          <div class="photo-gallery_album-title">
+            <author-avatar
+              class="photo-gallery_album-avatar"
+              document="album"
+              a-width="24"
+            ></author-avatar>
+
+            <a
+              class="photo-gallery_album-name"
+              ng-href="{{album.linkOnDocument}}"
+              target="_blank"
+              log-click="Фотоальбомы::Ссылка на альбом из галлереи"
+            >
+              {{album.subject}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
